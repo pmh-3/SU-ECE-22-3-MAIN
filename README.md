@@ -24,7 +24,11 @@ This repository contains the software Recognition, which uses computer vision to
     - The option `-it` makes the container interactive (show program in terminal as it runs)
     - The option `--rm` automatically deletes the container when it is done running
     - The option `-v <host dir>:<container dir>` mounts the "data" folder from the host into the container so that results can be accessed once the program is done running
-    
+
+## Debug Commands
+`docker build --target=debug  . -t panthera`
+`docker run -p 5678:5678  -it --rm -v $(pwd)/data:/app/data panthera`
+
 ## Authors
 
 - Ross Pitman (Panthera Corporation)
