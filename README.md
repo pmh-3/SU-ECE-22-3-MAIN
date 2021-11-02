@@ -1,6 +1,6 @@
 # SU-ECE-21-4
 
-This repository holds the final deliverables of Seattle University (SU) senior design team ECE 21.4 for Panthera Corporation. This software is an on-going collaboration between SU and Panthera, and this repository is a continuation of the work done in the past 4 years by SU ECE (Electrical and Computer Engineering) senior design teams. The past teams were ECE 17.7, ECE 18.7, ECE 19.7, and ECE 20.4.
+This software is an on-going collaboration between SU and Panthera, and this repository is a continuation of the work done in the past 5 years by SU ECE (Electrical and Computer Engineering) senior design teams. The past teams were ECE 17.7, ECE 18.7, ECE 19.7, ECE 20.4 and 21.4.
 
 This repository contains the software Recognition, which uses computer vision to determine the number of unique snow leopards in an image dataset.
 
