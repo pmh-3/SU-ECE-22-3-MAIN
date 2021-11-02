@@ -27,7 +27,8 @@ This repository contains the software Recognition, which uses computer vision to
 
 ## Debug Commands
 `docker build --target=debug  . -t panthera`
-`docker run -p 5678:5678  -it --rm -v $(pwd)/data:/app/data panthera`
+Windows: `docker run -p 5678:5678  -it --rm -v $PWD\data:/app/data panthera`
+Mac/Linux: `docker run -p 5678:5678  -it --rm -v $(pwd)/data:/app/data panthera`
 
 ## Authors
 
