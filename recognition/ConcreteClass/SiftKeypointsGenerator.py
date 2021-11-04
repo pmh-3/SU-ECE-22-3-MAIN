@@ -13,7 +13,12 @@ class SiftKeypointsGenerator(KeypointsGenerator):
         logging.info("Initializing keypoint generator")
         self.config = config
         self.maskGenerator = maskGenerator
-        self.sift = cv2.xfeatures2d.SIFT_create()
+        #Change SIFT parameters here
+        self.sift = cv2.xfeatures2d.SIFT_create(nfeatures = 0,
+                                                nOctaveLayers = 3,
+                                                contrastThreshold = 0.04,
+                                                edgeThreshold = 10,
+                                                sigma = 1.6 ) 
         self.create_kps_dir_if_not_exist()
 
     def create_kps_dir_if_not_exist(self):
