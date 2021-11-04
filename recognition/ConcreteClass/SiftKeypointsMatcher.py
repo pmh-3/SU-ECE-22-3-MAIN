@@ -4,10 +4,12 @@ from AbstractBaseClass.Matcher import Matcher
 from ConcreteClass.SnowLeopardImage import SnowLeopardImage
 import csv
 
-class SiftKeypointsMatcher(Matcher):
 
+class SiftKeypointsMatcher(Matcher):
+    
     def __init__(self, config):
         self.config = config
+        self.total_feature_matches = 0
 
     def matchCheck(self, primaryKpsFilename, secondaryKpsFilename):
         primaryFileName = primaryKpsFilename + ".JPG"
@@ -58,10 +60,14 @@ class SiftKeypointsMatcher(Matcher):
             secondaryImageObj.image, secondaryKpsObj.keypoints,
             strong_matches, None, **draw_params
         )
-        print("Match Count- {}".format(len(strong_matches)))
+
         result_image_name = primaryImageObj.filename + "___" + secondaryImageObj.filename
         result_image_path = self.config.get("results.directory") + "/" + result_image_name + ".JPG"
         cv2.imwrite(result_image_path, matches_drawn, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
+
+        #Keep track of total feature matches
+        self.total_feature_matches += len(strong_matches)
+        print("Match Count- {}".format(len(strong_matches)))
 
     def ransac(self, kp1, kp2, strong_matches):
         MIN_MATCH_COUNT = 10
