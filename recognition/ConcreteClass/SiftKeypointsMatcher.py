@@ -34,6 +34,7 @@ class SiftKeypointsMatcher(Matcher):
         for m, n in matches:
             if m.distance < 0.7 * n.distance:
                 strong_matches.append(m)
+        
         strong_matches = self.ransac(primaryKpsObj.keypoints, secondaryKpsObj.keypoints, strong_matches)
         
         if (self.config.get("matching.write_matches")):
@@ -57,7 +58,7 @@ class SiftKeypointsMatcher(Matcher):
             secondaryImageObj.image, secondaryKpsObj.keypoints,
             strong_matches, None, **draw_params
         )
-
+        print("Match Count- {}".format(len(strong_matches)))
         result_image_name = primaryImageObj.filename + "___" + secondaryImageObj.filename
         result_image_path = self.config.get("results.directory") + "/" + result_image_name + ".JPG"
         cv2.imwrite(result_image_path, matches_drawn, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
@@ -75,11 +76,12 @@ class SiftKeypointsMatcher(Matcher):
             # pts = np.float32([ [0,0],[0,h-1],[w-1,h-1],[w-1,0] ]).reshape(-1,1,2)
             # dst = cv2.perspectiveTransform(pts,M)
             # img2 = cv2.polylines(img2,[np.int32(dst)],True,255,3, cv2.LINE_AA)
-
+            
             best_matches = []
             for index, maskI in enumerate(matchesMask):
                 if maskI == 1:
                     best_matches.append(strong_matches[index])
+            #print("Best Match Count test - {}".format(len(strong_matches)))
             return best_matches
 
         else:
