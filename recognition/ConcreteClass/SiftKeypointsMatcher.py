@@ -27,7 +27,7 @@ class SiftKeypointsMatcher(Matcher):
         index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
         search_params = dict()
         flann = cv2.FlannBasedMatcher(index_params, search_params)
-        matches = flann.knnMatch(primaryKpsObj.descriptors, secondaryKpsObj.descriptors, k=2)
+        matches = flann.knnMatch(primaryKpsObj.descriptors, secondaryKpsObj.descriptors, k=5)
 
         # ratio test as per Lowe's paper
         strong_matches = []
