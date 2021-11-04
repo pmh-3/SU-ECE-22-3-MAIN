@@ -6,7 +6,7 @@ import csv
 
 
 class SiftKeypointsMatcher(Matcher):
-    
+
     def __init__(self, config):
         self.config = config
         self.total_feature_matches = 0
@@ -25,6 +25,7 @@ class SiftKeypointsMatcher(Matcher):
         return primaryCatID == secondaryCatID
 
     def match(self, primaryKpsObj, secondaryKpsObj):
+        global total_feature_matches
         FLANN_INDEX_KDTREE = 0
         index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
         search_params = dict()
@@ -36,9 +37,9 @@ class SiftKeypointsMatcher(Matcher):
         for m, n in matches:
             if m.distance < 0.7 * n.distance:
                 strong_matches.append(m)
-        
+
         strong_matches = self.ransac(primaryKpsObj.keypoints, secondaryKpsObj.keypoints, strong_matches)
-        
+
         if (self.config.get("matching.write_matches")):
             self.write_matches(primaryKpsObj,secondaryKpsObj,strong_matches)
 
@@ -82,12 +83,11 @@ class SiftKeypointsMatcher(Matcher):
             # pts = np.float32([ [0,0],[0,h-1],[w-1,h-1],[w-1,0] ]).reshape(-1,1,2)
             # dst = cv2.perspectiveTransform(pts,M)
             # img2 = cv2.polylines(img2,[np.int32(dst)],True,255,3, cv2.LINE_AA)
-            
+
             best_matches = []
             for index, maskI in enumerate(matchesMask):
                 if maskI == 1:
                     best_matches.append(strong_matches[index])
-            #print("Best Match Count test - {}".format(len(strong_matches)))
             return best_matches
 
         else:
