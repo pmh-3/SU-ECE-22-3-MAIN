@@ -7,7 +7,7 @@ import csv
 total_feature_matches = 0
 
 class SiftKeypointsMatcher(Matcher):
-    
+
 
     def __init__(self, config):
         self.config = config
@@ -38,13 +38,14 @@ class SiftKeypointsMatcher(Matcher):
         for m, n in matches:
             if m.distance < 0.7 * n.distance:
                 strong_matches.append(m)
+
         strong_matches = self.ransac(primaryKpsObj.keypoints, secondaryKpsObj.keypoints, strong_matches)
-        
+
         if (self.config.get("matching.write_matches")):
             self.write_matches(primaryKpsObj,secondaryKpsObj,strong_matches)
-        
+
         tot = total_feature_matches
-        
+
         print("Total feature matches = {}".format(tot))
 
         return (len(strong_matches) > self.config.get("matching.threshold"))
@@ -65,14 +66,14 @@ class SiftKeypointsMatcher(Matcher):
             secondaryImageObj.image, secondaryKpsObj.keypoints,
             strong_matches, None, **draw_params
         )
-
+        print("Match Count- {}".format(len(strong_matches)))
         result_image_name = primaryImageObj.filename + "___" + secondaryImageObj.filename
         result_image_path = self.config.get("results.directory") + "/" + result_image_name + ".JPG"
         cv2.imwrite(result_image_path, matches_drawn, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
 
     def ransac(self, kp1, kp2, strong_matches):
         MIN_MATCH_COUNT = 10
-        global total_feature_matches 
+        global total_feature_matches
         if len(strong_matches) > MIN_MATCH_COUNT:
             src_pts = np.float32([kp1[m.queryIdx].pt for m in strong_matches]).reshape(-1, 1, 2)
             dst_pts = np.float32([kp2[m.trainIdx].pt for m in strong_matches]).reshape(-1, 1, 2)
@@ -93,7 +94,7 @@ class SiftKeypointsMatcher(Matcher):
             return best_matches
 
         else:
-            total_feature_matches += len(strong_matches) 
+            total_feature_matches += len(strong_matches)
             print("Not enough matches are found - {}/{}".format(len(strong_matches), MIN_MATCH_COUNT))
             matchesMask = None
             return strong_matches
