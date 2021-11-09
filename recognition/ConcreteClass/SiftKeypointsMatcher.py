@@ -8,6 +8,7 @@ class SiftKeypointsMatcher(Matcher):
 
     def __init__(self, config):
         self.config = config
+        self.total_feature_matches = 0
 
     def matchCheck(self, primaryKpsFilename, secondaryKpsFilename):
         primaryFileName = primaryKpsFilename + ".JPG"
@@ -23,16 +24,17 @@ class SiftKeypointsMatcher(Matcher):
         return primaryCatID == secondaryCatID
 
     def match(self, primaryKpsObj, secondaryKpsObj):
-        FLANN_INDEX_KDTREE = 0
-        index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
-        search_params = dict()
-        flann = cv2.FlannBasedMatcher(index_params, search_params)
-        matches = flann.knnMatch(primaryKpsObj.descriptors, secondaryKpsObj.descriptors, k=2)
+        #FLANN_INDEX_KDTREE = 0
+        #index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
+        #search_params = dict()
+        #flann = cv2.FlannBasedMatcher(index_params, search_params)
+        bfm = cv2.BFMatcher_create(normType = cv2.NORM_L1)
+        matches = bfm.knnMatch(primaryKpsObj.descriptors, secondaryKpsObj.descriptors, k=2)
 
         # ratio test as per Lowe's paper
         strong_matches = []
         for m, n in matches:
-            if m.distance < 0.7 * n.distance:
+            if m.distance < .7 * n.distance:
                 strong_matches.append(m)
         strong_matches = self.ransac(primaryKpsObj.keypoints, secondaryKpsObj.keypoints, strong_matches)
         
@@ -61,6 +63,10 @@ class SiftKeypointsMatcher(Matcher):
         result_image_name = primaryImageObj.filename + "___" + secondaryImageObj.filename
         result_image_path = self.config.get("results.directory") + "/" + result_image_name + ".JPG"
         cv2.imwrite(result_image_path, matches_drawn, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
+
+        #count total feature matches
+        self.total_feature_matches += len(strong_matches)
+        print("Match Count - {}".format(len(strong_matches)))
 
     def ransac(self, kp1, kp2, strong_matches):
         MIN_MATCH_COUNT = 10
