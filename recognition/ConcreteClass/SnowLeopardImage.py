@@ -42,7 +42,7 @@ class SnowLeopardImage(Image):
 
     def load_image_from_file(self, image_path):
         logging.info("Loading image from file")
-        self.image = np.array(cv2.imread(image_path))
+        self.image = np.array(cv2.imread(image_path, cv2.IMREAD_GRAYSCALE))
 
     def extract_filename_and_extension(self, image_path):
         logging.info("Extracting filename and extension of image file")
