@@ -46,7 +46,7 @@ if __name__ == "__main__":
     
     write_groups_to_csv(groups_list)
 
-    
+print("Total Feature Matches: ", matcher.total_feature_matches)    
 
  
         
