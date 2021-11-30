@@ -2,6 +2,7 @@
 # Created by Seattle University ECE 21.4
 # Gao, Edward; Pham, Dustin; Sadaoka Neil; Somlak, Calien.
 # Previous version of Recognition: https://github.com/caballe4/SU-ECE-20-4
+#4.4.0.44
 
 import os
 import csv
@@ -46,7 +47,7 @@ if __name__ == "__main__":
     
     write_groups_to_csv(groups_list)
 
-    print("Total Feature Matches: ", matcher.total_feature_matches)
+    print("total keypoint matches: {}".format(matcher.total_feature_matches) )
 
     
 

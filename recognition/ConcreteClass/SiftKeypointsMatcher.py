@@ -9,7 +9,7 @@ class SiftKeypointsMatcher(Matcher):
 
     def __init__(self, config):
         self.config = config
-        self.total_feature_matches = 0
+        self.total_feature_matches = []
 
     def matchCheck(self, primaryKpsFilename, secondaryKpsFilename):
         primaryFileName = primaryKpsFilename + ".JPG"
@@ -67,7 +67,7 @@ class SiftKeypointsMatcher(Matcher):
         cv2.imwrite(result_image_path, matches_drawn, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
 
         #Keep track of total feature matches
-        self.total_feature_matches += len(strong_matches)
+        self.total_feature_matches.append(len(strong_matches))
         print("Match Count- {}".format(len(strong_matches)))
 
     def ransac(self, kp1, kp2, strong_matches):
