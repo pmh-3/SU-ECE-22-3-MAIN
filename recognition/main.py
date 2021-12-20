@@ -48,8 +48,6 @@ if __name__ == "__main__":
     write_groups_to_csv(groups_list)
 
     print("total keypoint matches: {}".format(matcher.total_feature_matches) )
+    print("total keypoints: {}".format(matcher.total_keypoints) )
 
-    
-
- 
         

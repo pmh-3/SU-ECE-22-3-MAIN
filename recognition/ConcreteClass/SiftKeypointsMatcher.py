@@ -10,6 +10,7 @@ class SiftKeypointsMatcher(Matcher):
     def __init__(self, config):
         self.config = config
         self.total_feature_matches = []
+        self.total_keypoints = []
 
     def matchCheck(self, primaryKpsFilename, secondaryKpsFilename):
         primaryFileName = primaryKpsFilename + ".JPG"
@@ -69,6 +70,10 @@ class SiftKeypointsMatcher(Matcher):
         #Keep track of total feature matches
         self.total_feature_matches.append(len(strong_matches))
         print("Match Count- {}".format(len(strong_matches)))
+
+        #Keep track of total feature matches
+        self.total_keypoints.append((len(primaryKpsObj.keypoints),len(secondaryKpsObj.keypoints)))
+        print("keypoints Count- {}".format(len(primaryKpsObj.keypoints)))
 
     def ransac(self, kp1, kp2, strong_matches):
         MIN_MATCH_COUNT = 10
