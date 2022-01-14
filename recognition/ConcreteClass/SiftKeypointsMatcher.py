@@ -52,10 +52,10 @@ class SiftKeypointsMatcher(Matcher):
         secondary_image_path = SnowLeopardImage.generate_image_path(self.config, secondaryKpsObj.filename)
         secondaryImageObj = SnowLeopardImage(secondary_image_path)
 
-        draw_params = dict(matchColor=(0, 255, 0),
+        draw_params = dict(matchColor=-1,
                            singlePointColor=(255, 0, 0),
                            matchesMask=None,
-                           flags=cv2.DrawMatchesFlags_DEFAULT)
+                           flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
         matches_drawn = cv2.drawMatches(
             primaryImageObj.image, primaryKpsObj.keypoints,
