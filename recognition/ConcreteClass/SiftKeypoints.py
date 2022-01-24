@@ -55,7 +55,7 @@ class SiftKeypoints(Keypoints):
         pickle_file.close()
         for kp_and_desc in kps_and_descs_list:
             [pt, size, angle, response, octave, class_id, desc] = kp_and_desc
-            kp = cv2.KeyPoint(x=pt[0], y=pt[1], size=size, angle=angle, response=response, octave=octave, class_id=class_id)
+            kp = cv2.KeyPoint(x=pt[0], y=pt[1], _size=size, _angle=angle, _response=response, _octave=octave, _class_id=class_id)
             self.keypoints.append(kp)
             self.descriptors.append(desc)
             del kp_and_desc

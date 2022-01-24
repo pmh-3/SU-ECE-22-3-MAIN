@@ -13,23 +13,8 @@ class SiftKeypointsGenerator(KeypointsGenerator):
         logging.info("Initializing keypoint generator")
         self.config = config
         self.maskGenerator = maskGenerator
-       
-        self.sift = cv2.SIFT.create(
-            nfeatures = 0, #Default: 0
-            nOctaveLayers = 3, #* Default: 3
-            contrastThreshold = 0.04, #* Default: 0.04
-            edgeThreshold = 10, #* Default: 10
-            sigma = 1.6 # Default: 1.6
-        )  
-
-        '''
-        # SURF is pattented and is within the contribute packages
-        # install opencv-contrib-python==4.4.0.44 in requirements.txt to use
-        # this setting needs to be changed possibly with cmake flags: [OPENCV_ENABLE_NONFREE:BOOL=ON]
-        # TODO: figure out how to change flags... Manual install of open cv? Via terminal?
-        self.sift = cv2.xfeatures2d.SURF_create()
+        self.sift = cv2.xfeatures2d.SIFT_create()
         self.create_kps_dir_if_not_exist()
-        '''
 
     def create_kps_dir_if_not_exist(self):
         logging.info("Creating Sift directory")

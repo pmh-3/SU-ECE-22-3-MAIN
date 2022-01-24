@@ -4,13 +4,10 @@ from AbstractBaseClass.Matcher import Matcher
 from ConcreteClass.SnowLeopardImage import SnowLeopardImage
 import csv
 
-
 class SiftKeypointsMatcher(Matcher):
 
     def __init__(self, config):
         self.config = config
-        self.total_feature_matches = []
-        self.total_keypoints = []
 
     def matchCheck(self, primaryKpsFilename, secondaryKpsFilename):
         primaryFileName = primaryKpsFilename + ".JPG"
@@ -26,7 +23,6 @@ class SiftKeypointsMatcher(Matcher):
         return primaryCatID == secondaryCatID
 
     def match(self, primaryKpsObj, secondaryKpsObj):
-        global total_feature_matches
         FLANN_INDEX_KDTREE = 0
         index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
         search_params = dict()
@@ -38,9 +34,8 @@ class SiftKeypointsMatcher(Matcher):
         for m, n in matches:
             if m.distance < 0.7 * n.distance:
                 strong_matches.append(m)
-
         strong_matches = self.ransac(primaryKpsObj.keypoints, secondaryKpsObj.keypoints, strong_matches)
-
+        
         if (self.config.get("matching.write_matches")):
             self.write_matches(primaryKpsObj,secondaryKpsObj,strong_matches)
 
@@ -52,10 +47,10 @@ class SiftKeypointsMatcher(Matcher):
         secondary_image_path = SnowLeopardImage.generate_image_path(self.config, secondaryKpsObj.filename)
         secondaryImageObj = SnowLeopardImage(secondary_image_path)
 
-        draw_params = dict(matchColor=-1,
+        draw_params = dict(matchColor=(0, 255, 0),
                            singlePointColor=(255, 0, 0),
                            matchesMask=None,
-                           flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+                           flags=cv2.DrawMatchesFlags_DEFAULT)
 
         matches_drawn = cv2.drawMatches(
             primaryImageObj.image, primaryKpsObj.keypoints,
@@ -66,14 +61,6 @@ class SiftKeypointsMatcher(Matcher):
         result_image_name = primaryImageObj.filename + "___" + secondaryImageObj.filename
         result_image_path = self.config.get("results.directory") + "/" + result_image_name + ".JPG"
         cv2.imwrite(result_image_path, matches_drawn, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
-
-        #Keep track of total feature matches
-        self.total_feature_matches.append(len(strong_matches))
-        print("Match Count- {}".format(len(strong_matches)))
-
-        #Keep track of total feature matches
-        self.total_keypoints.append((len(primaryKpsObj.keypoints),len(secondaryKpsObj.keypoints)))
-        print("keypoints Count- {}".format(len(primaryKpsObj.keypoints)))
 
     def ransac(self, kp1, kp2, strong_matches):
         MIN_MATCH_COUNT = 10
