@@ -1,6 +1,6 @@
 {
   "images": {
-    "directory": "data/images/",
+    "directory": "data/images/Cat1.2",
     "file_extension": ".JPG"
   },
   "ImageFilter": {
@@ -8,7 +8,7 @@
     "file_extension": ".PNG"
   },
   "Mask": {
-    "directory": "data/masks/",
+    "directory": "data/masks/Cat1.2",
     "file_extension": ".BMP",
     "mrcnn": {
       "device": "/cpu:0",
@@ -32,7 +32,7 @@
   	"write_matches": true
   },
   "results": {
-    "directory": "data/results/",
+    "directory": "data/results/Cat1.2",
     "catID_csv": "data/results/catID.csv",
     "move": false
   },

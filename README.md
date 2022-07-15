@@ -1,4 +1,4 @@
-# SU-ECE-21-4
+# SU-ECE-22-3
 
 This software is an on-going collaboration between SU and Panthera, and this repository is a continuation of the work done in the past 5 years by SU ECE (Electrical and Computer Engineering) senior design teams. The past teams were ECE 17.7, ECE 18.7, ECE 19.7, ECE 20.4 and 21.4.
 
@@ -36,3 +36,4 @@ Mac/Linux: `docker run -p 5678:5678  -it --rm -v $(pwd)/data:/app/data panthera`
 - ECE 19.7 (Seattle University)
 - ECE 20.4 (Seattle University)
 - ECE 21.4 (Seattle University)
+- ECE 22.3 (Seattle University)
